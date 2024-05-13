@@ -17,7 +17,7 @@ const InstalledModsList = ({ className, game }: InstalledModsListProps) => {
       data-testid="InstalledModsList"
     >
       <ModsOrder game={game} mods={data?.activeMods} />
-      <div>
+      <div className={css.InstalledMods}>
         <StickyBlock>
           <Heading variant="h3">Installed Mods</Heading>
         </StickyBlock>

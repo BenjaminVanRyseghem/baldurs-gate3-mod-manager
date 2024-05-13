@@ -43,6 +43,8 @@ html {
 
   body {
     background-color: var(--surface-1);
+    height: 100vh;
+    overflow: hidden;
   }
 
   @media (prefers-color-scheme: dark) {

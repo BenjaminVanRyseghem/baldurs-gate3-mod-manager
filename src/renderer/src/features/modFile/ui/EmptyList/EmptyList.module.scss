@@ -2,7 +2,7 @@
 
 .EmptyList {
   display: grid;
-  flex: 1;
+  flex: 0 1 auto;
   place-content: center;
 
   @layer EmptyList {

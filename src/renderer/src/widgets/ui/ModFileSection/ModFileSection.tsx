@@ -13,7 +13,7 @@ const ModFileSection = ({ className, game }: ModFileSectionProps) => (
     <StickyBlock>
       <Heading>Modification Files</Heading>
     </StickyBlock>
-    <ModFileForm game={game} />
+    <ModFileForm game={game} className={css.ModFileForm} />
   </div>
 );
 

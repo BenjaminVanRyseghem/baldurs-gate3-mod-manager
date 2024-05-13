@@ -4,6 +4,10 @@
   --allowed: var(--success-8);
   --not-allowed: var(--danger-8);
 
+  flex: 1 1 100%;
+  height: 100%;
+  overflow-y: auto;
+
   @media (prefers-color-scheme: light) {
     --allowed: var(--success-2);
     --not-allowed: var(--danger-2);

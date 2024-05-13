@@ -1,7 +1,6 @@
 .ModFileForm {
   display: flex;
   flex-direction: column;
-  min-height: 75dvh;
 
   &.isLoading {
     cursor: progress;
