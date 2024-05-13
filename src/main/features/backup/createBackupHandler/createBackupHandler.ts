@@ -17,7 +17,7 @@ const createBackupHandler = async (gameKey: GameKey) => {
 
   const filePath = path.resolve(
     BACKUP_DIR,
-    dayjs().format("DD-MM-YYYY_HH-mm-ss"),
+    dayjs().format("YYYY-MM-DD_HH-mm-ss"),
   );
 
   const extraSettings = {
