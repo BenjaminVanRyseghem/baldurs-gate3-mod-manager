@@ -32,7 +32,7 @@ const InstalledMod = ({
       className={classNames(css.InstalledMod, className)}
       data-testid="InstalledMod"
     >
-      <span>{position && `${position}.`}</span>
+      <span>{position ? `${position}.` : "-"}</span>
       <span title="Marklar">{mod.name || mod.fileName}</span>
       <span>{mod.version}</span>
       <ToggleActiveModButton

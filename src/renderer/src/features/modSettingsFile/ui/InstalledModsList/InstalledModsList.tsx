@@ -22,14 +22,31 @@ const InstalledModsList = ({ className, game }: InstalledModsListProps) => {
           <Heading variant="h3">Installed Mods</Heading>
         </StickyBlock>
         {data?.installedMods.length ? (
-          data?.installedMods.map((mod, index) => (
-            <InstalledMod
-              key={mod.uuid ?? (mod.name || index)}
-              game={game}
-              mod={mod}
-              position={index + 1}
-            />
-          ))
+          data?.installedMods
+            .sort((one, another) => {
+              const oneName = one.name || one.fileName || "";
+              const anotherName = another.name || another.fileName || "";
+
+              if (!one.isActive && another.isActive) return -1;
+
+              if (one.isActive && !another.isActive) return 1;
+
+              return oneName.localeCompare(anotherName);
+            })
+            .map((mod, index) => {
+              const position = data?.activeMods?.findIndex(
+                (each) => each.uuid === mod.uuid,
+              );
+
+              return (
+                <InstalledMod
+                  key={mod.uuid ?? (mod.name || index)}
+                  game={game}
+                  mod={mod}
+                  position={position ? position + 1 : undefined}
+                />
+              );
+            })
         ) : (
           <EmptyList>
             <Heading variant="h4">

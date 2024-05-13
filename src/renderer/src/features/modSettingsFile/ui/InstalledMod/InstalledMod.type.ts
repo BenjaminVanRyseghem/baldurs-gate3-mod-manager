@@ -8,5 +8,5 @@ export type InstalledModProps = {
   className?: string;
   game: Game;
   mod: RouterOutputs["mod"]["getInstalledMods"]["installedMods"][number];
-  position: number;
+  position?: number;
 };
