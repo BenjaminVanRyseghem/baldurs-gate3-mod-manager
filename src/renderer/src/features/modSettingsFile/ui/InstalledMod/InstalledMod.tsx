@@ -12,6 +12,7 @@ const InstalledMod = ({
   game,
   mod,
   position,
+  onClick = () => {},
 }: InstalledModProps) => {
   const utils = trpc.useContext();
 
@@ -31,6 +32,7 @@ const InstalledMod = ({
     <Card
       className={classNames(css.InstalledMod, className)}
       data-testid="InstalledMod"
+      onClick={onClick}
     >
       <span>{position ? `${position}.` : "-"}</span>
       <span title="Marklar">{mod.name || mod.fileName}</span>

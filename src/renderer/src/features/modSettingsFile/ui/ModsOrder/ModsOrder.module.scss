@@ -6,7 +6,13 @@
 
   flex: 1 1 100%;
   height: 100%;
-  overflow-y: auto;
+
+  display: flex;
+  flex-direction: column;
+
+  .Title {
+    flex: 0 0 auto;
+  }
 
   @media (prefers-color-scheme: light) {
     --allowed: var(--success-2);
@@ -14,6 +20,8 @@
   }
 
   .droppable {
+    flex: 1 1 100%;
+    overflow: auto;
     background-color: var(--danger-8);
     transition: background-color 350ms linear;
 

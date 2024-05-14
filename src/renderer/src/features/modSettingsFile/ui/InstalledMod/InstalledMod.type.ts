@@ -9,4 +9,5 @@ export type InstalledModProps = {
   game: Game;
   mod: RouterOutputs["mod"]["getInstalledMods"]["installedMods"][number];
   position?: number;
+  onClick?: () => void;
 };

@@ -9,4 +9,5 @@ export type ModsOrderProps = {
   className?: string;
   game: Game;
   mods?: InstalledMod[];
+  selectedMod?: InstalledMod | null;
 };

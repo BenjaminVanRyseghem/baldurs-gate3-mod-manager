@@ -1,3 +1,4 @@
+import { useEffect, useId, useRef } from "react";
 import {
   DragDropContext,
   Draggable,
@@ -8,7 +9,7 @@ import {
 } from "react-beautiful-dnd";
 
 import { classNames, trpc } from "@renderer/shared/lib/helpers";
-import { Heading, StickyBlock } from "@renderer/shared/ui";
+import { Heading } from "@renderer/shared/ui";
 
 import { EmptyList } from "../EmptyList";
 import { InstalledMod } from "../InstalledMod";
@@ -16,8 +17,36 @@ import { InstalledMod } from "../InstalledMod";
 import css from "./ModsOrder.module.scss";
 import { ModsOrderProps } from "./ModsOrder.type";
 // TODO check
-const ModsOrder = ({ className, mods = [], game }: ModsOrderProps) => {
+const ModsOrder = ({
+  className,
+  mods = [],
+  game,
+  selectedMod,
+}: ModsOrderProps) => {
+  const scrollNode = useRef<HTMLDivElement>(null);
   const utils = trpc.useContext();
+  const scrollId = useId();
+
+  useEffect(() => {
+    if (!selectedMod || !scrollNode.current) {
+      return;
+    }
+
+    const matchingNode = scrollNode.current.querySelector(
+      `[data-uuid="${selectedMod.uuid}"]`,
+    );
+
+    const scrollableList = scrollNode.current.querySelector(
+      `[data-id="${scrollId}"]`,
+    );
+
+    if (!matchingNode || !scrollableList) return;
+
+    const top =
+      matchingNode.getBoundingClientRect().top + scrollableList.scrollTop - 47;
+
+    scrollableList.scrollTo({ top, behavior: "smooth" });
+  }, [selectedMod, scrollNode]);
 
   const { mutate } = trpc.mod.reorderActiveMods.useMutation({
     onSuccess: () => utils.mod.getInstalledMods.invalidate(),
@@ -98,18 +127,20 @@ const ModsOrder = ({ className, mods = [], game }: ModsOrderProps) => {
 
   return (
     <div
+      ref={scrollNode}
       className={classNames(css.ModsOrder, className)}
       data-testid="ModsOrder"
     >
-      <StickyBlock>
-        <Heading variant="h3">Mod Order</Heading>
-      </StickyBlock>
+      <Heading className={css.Title} variant="h3">
+        Mod Order
+      </Heading>
       {mods?.length ? (
         <DragDropContext onDragEnd={onDragDropContextDragEnd}>
           <Droppable droppableId="modOrderDroppable">
             {(provided, { isDraggingOver }) => (
               <div
                 {...provided.droppableProps}
+                data-id={scrollId}
                 ref={provided.innerRef}
                 className={classNames(
                   css.droppable,
@@ -124,6 +155,7 @@ const ModsOrder = ({ className, mods = [], game }: ModsOrderProps) => {
                   >
                     {({ draggableProps, dragHandleProps, innerRef }) => (
                       <div
+                        data-uuid={mod.uuid!}
                         className={css.modWrapper}
                         ref={innerRef}
                         {...draggableProps}
@@ -135,6 +167,7 @@ const ModsOrder = ({ className, mods = [], game }: ModsOrderProps) => {
                           game={game}
                           mod={mod}
                           position={index + 1}
+                          onClick={undefined}
                         />
                       </div>
                     )}

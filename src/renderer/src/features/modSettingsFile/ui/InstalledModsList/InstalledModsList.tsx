@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 import { InstalledMod } from "@renderer/features/modSettingsFile/ui/InstalledMod";
 import { ModsOrder } from "@renderer/features/modSettingsFile/ui/ModsOrder";
 import { classNames, trpc } from "@renderer/shared/lib/helpers";
@@ -10,13 +12,18 @@ import { InstalledModsListProps } from "./InstalledModsList.type";
 
 const InstalledModsList = ({ className, game }: InstalledModsListProps) => {
   const { data } = trpc.mod.getInstalledMods.useQuery(game);
+  const [selectedMod, setSelectedMod] = useState(null);
 
   return (
     <div
       className={classNames(css.InstalledModsList, className)}
       data-testid="InstalledModsList"
     >
-      <ModsOrder game={game} mods={data?.activeMods} />
+      <ModsOrder
+        game={game}
+        mods={data?.activeMods}
+        selectedMod={selectedMod}
+      />
       <div className={css.InstalledMods}>
         <StickyBlock>
           <Heading variant="h3">Installed Mods</Heading>
@@ -44,6 +51,7 @@ const InstalledModsList = ({ className, game }: InstalledModsListProps) => {
                   game={game}
                   mod={mod}
                   position={position ? position + 1 : undefined}
+                  onClick={() => setSelectedMod(mod)}
                 />
               );
             })
