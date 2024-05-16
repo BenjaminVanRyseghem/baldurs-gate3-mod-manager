@@ -1,4 +1,4 @@
-import { ModInfo, createModNodeOrder } from "@main/entities/mod";
+import { ModInfo, createModNode, createModNodeOrder } from "@main/entities/mod";
 import {
   getCurrentSettings,
   saveModSettings,
@@ -15,6 +15,19 @@ const reorderActiveModsHandler = async (mods: ModInfo[], key: GameKey) => {
     const node = createModNodeOrder(mod);
 
     children.append(node);
+  });
+
+  const modsList = settings("#Mods children");
+  const gustavNode = settings("#Mods children node").first().clone();
+
+  modsList.empty();
+
+  modsList.append(gustavNode);
+
+  mods.forEach((mod) => {
+    const node = createModNode(mod);
+
+    modsList.append(node);
   });
 
   await saveModSettings(settings.xml(), key);

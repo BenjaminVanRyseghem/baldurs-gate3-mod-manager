@@ -9,6 +9,10 @@ const modInfoValidation = z.object({
   fileName: z.string(),
   name: z.string().optional(),
   uuid: z.string().optional(),
+  md5: z.string().optional(),
+  folder: z.string().optional(),
+  version: z.string().optional(),
+  versionType: z.string().optional(),
 });
 
 const modInfoArrayValidation = z.array(modInfoValidation);
