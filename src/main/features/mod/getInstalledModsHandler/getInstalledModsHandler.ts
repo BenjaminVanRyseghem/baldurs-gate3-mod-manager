@@ -9,6 +9,27 @@ import { isPak } from "@main/shared/lib/helpers/fileExtension";
 
 import { InstalledMod } from "./getInstalledModsHandler.type";
 
+async function batchPromises(
+  promises: (() => Promise<InstalledMod>)[],
+  batchSize: number = 100,
+): Promise<InstalledMod[]> {
+  let slice = promises.splice(0, Math.min(promises.length, batchSize));
+
+  const result = [];
+
+  while (slice.length > 0) {
+    const partialResult = await Promise.all(
+      slice.map((promiseFn) => promiseFn()),
+    );
+
+    result.push(...partialResult);
+
+    slice = promises.splice(0, Math.min(promises.length, batchSize));
+  }
+
+  return result;
+}
+
 const getInstalledModsHandler = async (key: GameKey) => {
   const { MODS_DIRECTORY } = getGameSettings(key);
   const settings = await getCurrentSettings(key);
@@ -30,8 +51,8 @@ const getInstalledModsHandler = async (key: GameKey) => {
   const files = await readdir(MODS_DIRECTORY);
   const allModsMap = new Map<string, InstalledMod>();
 
-  const allModsList = await Promise.all(
-    files.filter(isPak).map(async (file) => {
+  const allModsList = await batchPromises(
+    files.filter(isPak).map((file) => async () => {
       const filePath = resolve(MODS_DIRECTORY, file);
       const modInfo = await getModInfoFromFile(filePath);
       const mod = modInfo as InstalledMod;

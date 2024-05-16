@@ -51,8 +51,55 @@ const getModInfo = (fileName: string, base64?: string | null) => {
   return modInfo;
 };
 
+function retryAblePromise(
+  promiseFn: () => void | Promise<any>,
+  log?: string,
+  retries = 3,
+  timeout = 500,
+): Promise<any> {
+  return new Promise((res, rej) => {
+    const attempt = async (attemptNumber = 0) => {
+      try {
+        const promise = promiseFn();
+
+        if (!promise) {
+          rej(new Error("No promise returned"));
+        }
+
+        const result = await Promise.race([
+          promise,
+          new Promise<any>((_, r) => {
+            setTimeout(r, timeout);
+          }),
+        ]);
+
+        res(result);
+      } catch (e) {
+        if (log && process.env.NODE_ENV === "development") {
+          // eslint-disable-next-line no-console
+          console.log(
+            `[${log}] Attempt ${attemptNumber + 1} failed, retrying...`,
+          );
+        }
+
+        if (attemptNumber < retries) {
+          attempt(attemptNumber + 1);
+        } else {
+          rej(e);
+        }
+      }
+    };
+
+    attempt();
+  });
+}
+
 const getModInfoFromFile = async (filePath: string) => {
-  const response = await netConnection.send("getPakInfoFromPath", filePath);
+  const response = await retryAblePromise(
+    () => netConnection.send("getPakInfoFromPath", filePath),
+    filePath,
+  );
+
   const fileName = path.basename(filePath);
 
   return getModInfo(fileName, response);
