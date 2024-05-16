@@ -23,6 +23,7 @@ const SettingsForm = ({ className, game }: SettingsFormProps) => {
       modSettingsFile: data?.MOD_SETTINGS_PATH,
       modsDirectory: data?.MODS_DIRECTORY,
       backupDirectory: data?.BACKUP_DIR,
+      bg3mmDirectory: data?.BG3MM_DIR,
     },
     mode: "onTouched",
   });
@@ -50,6 +51,10 @@ const SettingsForm = ({ className, game }: SettingsFormProps) => {
       <TextField
         {...register("backupDirectory")}
         label="Path to Backup directory"
+      />
+      <TextField
+        {...register("bg3mmDirectory")}
+        label="Path to BG3MM order directory"
       />
       <Button
         className={css.submitButton}

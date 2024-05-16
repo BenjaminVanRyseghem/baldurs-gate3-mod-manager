@@ -55,6 +55,7 @@ const BALDURS_GATE3_DEFAULTS = {
     "Larian Studios/Baldur's Gate 3/PlayerProfiles/Public/modsettings.lsx",
   ),
   BACKUP_DIR: path.join(appDataPath, "Backups/BG3"),
+  BG3MM_DIR: path.join(appDataPath, "Backups/BG3MM"),
 };
 
 const APP_SETTINGS: AppSettings = {
@@ -66,6 +67,7 @@ const APP_SETTINGS: AppSettings = {
       BALDURS_GATE3_DEFAULTS.MOD_SETTINGS_PATH,
     BACKUP_DIR:
       fileSettings.BG3?.BACKUP_DIR || BALDURS_GATE3_DEFAULTS.BACKUP_DIR,
+    BG3MM_DIR: fileSettings.BG3?.BG3MM_DIR || BALDURS_GATE3_DEFAULTS.BG3MM_DIR,
   },
 };
 
@@ -88,4 +90,18 @@ const createBackupDir = () => {
   });
 };
 
-export { createBackupDir, saveSettings, APP_SETTINGS, PAK_READER_PATH };
+const createBG3MMDir = () => {
+  Object.keys(APP_SETTINGS).forEach((key) => {
+    const backupPath = APP_SETTINGS[key as keyof AppSettings].BG3MM_DIR;
+
+    fs.mkdirSync(backupPath, { recursive: true });
+  });
+};
+
+export {
+  createBackupDir,
+  createBG3MMDir,
+  saveSettings,
+  APP_SETTINGS,
+  PAK_READER_PATH,
+};

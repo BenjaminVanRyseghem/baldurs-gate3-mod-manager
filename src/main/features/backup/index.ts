@@ -9,3 +9,5 @@ export { getBackupsHandler } from "./getBackupsHandler";
 export { restoreDefaultSettingsHandler } from "./restoreDefaultSettingsHandler";
 
 export { restoreFromFileHandler } from "./restoreFromFileHandler";
+
+export { exportBG3MMOrderHandler } from "./exportBG3MMOrderHandler";

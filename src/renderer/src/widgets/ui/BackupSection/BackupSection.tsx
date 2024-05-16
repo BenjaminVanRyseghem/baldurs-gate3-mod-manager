@@ -3,6 +3,7 @@ import {
   RestoreDefaultSettings,
   SaveSettingsButton,
 } from "@renderer/features/backup";
+import { ExportOrderButton } from "@renderer/features/backup/ui/ExportOrderButton";
 import { SuspenseError } from "@renderer/shared/components";
 import { classNames } from "@renderer/shared/lib/helpers";
 
@@ -17,6 +18,7 @@ const BackupSection = ({ className, game }: BackupSectionProps) => (
     <div className={css.buttonGroup}>
       <SaveSettingsButton game={game} />
       <RestoreDefaultSettings game={game} />
+      <ExportOrderButton game={game} />
     </div>
     <SuspenseError>
       <BackupList game={game} />

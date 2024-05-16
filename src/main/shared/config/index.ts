@@ -2,6 +2,7 @@ export {
   APP_SETTINGS,
   PAK_READER_PATH,
   createBackupDir,
+  createBG3MMDir,
   saveSettings,
 } from "./config";
 

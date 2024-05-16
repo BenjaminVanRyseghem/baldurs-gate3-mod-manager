@@ -5,6 +5,7 @@ import {
   copyBackupContentHandler,
   createBackupHandler,
   deleteBackupHandler,
+  exportBG3MMOrderHandler,
   getBackupsHandler,
   restoreDefaultSettingsHandler,
   restoreFromFileHandler,
@@ -116,6 +117,24 @@ const createBackup = t.procedure.input(gameKeyValidation).mutation((opts) => {
   }
 });
 
+const exportBG3MMOrder = t.procedure
+  .input(gameKeyValidation)
+  .mutation((opts) => {
+    const { input } = opts;
+
+    try {
+      return exportBG3MMOrderHandler(input);
+    } catch (e) {
+      if (isError(e)) {
+        throw new TRPCError({
+          cause: e.cause,
+          code: "BAD_REQUEST",
+          message: e.message,
+        });
+      }
+    }
+  });
+
 const backupController = {
   createBackup,
   copyBackupContent,
@@ -123,6 +142,7 @@ const backupController = {
   getBackups,
   restoreDefaultSettings,
   restoreFromFile,
+  exportBG3MMOrder,
 };
 
 export { backupController };

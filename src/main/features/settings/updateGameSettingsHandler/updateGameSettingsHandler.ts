@@ -6,6 +6,7 @@ import { GameSettingsUpdateDto } from "./updateGameSettingsHandler.type";
 const updateGameSettingsHandler = async ({
   gameKey,
   backupDirectory,
+  bg3mmDirectory,
   modsDirectory,
   modSettingsFile,
 }: GameSettingsUpdateDto) => {
@@ -16,6 +17,8 @@ const updateGameSettingsHandler = async ({
   gameSettings.MOD_SETTINGS_PATH = modSettingsFile;
 
   gameSettings.BACKUP_DIR = backupDirectory;
+
+  gameSettings.BG3MM_DIR = bg3mmDirectory;
 
   await saveSettings();
 };

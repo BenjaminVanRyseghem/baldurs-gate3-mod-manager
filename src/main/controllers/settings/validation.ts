@@ -6,6 +6,7 @@ const updateGameSettingsValidation = z.object({
   backupDirectory: z.string(),
   modSettingsFile: z.string(),
   modsDirectory: z.string(),
+  bg3mmDirectory: z.string(),
   gameKey: gameKeyValidation,
 });
 

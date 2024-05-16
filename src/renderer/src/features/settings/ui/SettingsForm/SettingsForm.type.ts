@@ -12,4 +12,5 @@ export type SettingsFormValues = {
   modSettingsFile: string;
   modsDirectory: string;
   backupDirectory: string;
+  bg3mmDirectory: string;
 };
