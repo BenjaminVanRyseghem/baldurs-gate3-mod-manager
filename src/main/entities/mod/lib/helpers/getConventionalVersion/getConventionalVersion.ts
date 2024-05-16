@@ -7,6 +7,11 @@ const getConventionalVersion = (version?: string) => {
   }
 
   const versionInt = BigInt(version);
+
+  if (versionInt === 1n || versionInt === 268435456n) {
+    return "1.0.0.0";
+  }
+
   const major = versionInt >> BigInt(55);
   const minor = (versionInt >> BigInt(47)) & BigInt(0xff);
   const revision = (versionInt >> BigInt(31)) & BigInt(0xffff);
