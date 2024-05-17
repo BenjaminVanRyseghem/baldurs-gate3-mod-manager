@@ -57,6 +57,10 @@ app.whenReady().then(() => {
   // Set app user model id for windows
   electronApp.setAppUserModelId("com.electron");
 
+  ipcMain.handle("openPath", (_, path: string) => {
+    shell.openPath(path);
+  });
+
   ipcMain.handle("trpc", (_, req: IpcRequest) =>
     ipcRequestHandler({
       endpoint: "/trpc",

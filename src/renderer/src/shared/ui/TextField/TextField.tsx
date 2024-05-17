@@ -26,6 +26,7 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
       suffix,
       type = "text",
       value,
+      button,
     },
     ref,
   ) => {
@@ -41,7 +42,7 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
             {label}
           </Heading>
         )}
-        <div className={css.container}>
+        <div className={`${css.container} ${button ? css.button : ""}`}>
           {prefix && <FakeButton className={css.prefix}>{prefix}</FakeButton>}
           <input
             autoComplete={autoComplete}
@@ -55,6 +56,7 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
             type={type}
             value={value}
           />
+          {button}
           {suffix && (
             <FakeButton
               ariaLabel="toggle password visibility"

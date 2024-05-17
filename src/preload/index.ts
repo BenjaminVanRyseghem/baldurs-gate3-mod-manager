@@ -7,6 +7,7 @@ export type ElectronHandler = typeof electronHandler;
 const electronHandler = {
   ipcRenderer: {},
   trpc: (req: IpcRequest) => ipcRenderer.invoke("trpc", req),
+  openPath: (path: string) => ipcRenderer.invoke("openPath", path),
 };
 
 // Use `contextBridge` APIs to expose Electron APIs to

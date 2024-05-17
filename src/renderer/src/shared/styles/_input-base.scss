@@ -20,7 +20,6 @@
 
   .container {
     background-color: var(--background);
-    border: 1px solid var(--border-color);
     border-radius: 0.2rem;
     font-family: Roboto, sans-serif;
     font-size: 1.6rem;
@@ -34,9 +33,19 @@
     transition: border-color 350ms var(--ease-4);
     width: 100%;
 
+    &.button {
+      display: flex;
+      gap: var(--spacing-4);
+
+      button {
+        height: 45px;
+        width: 45px;
+      }
+    }
+
     :is(textarea, input) {
       background-color: transparent;
-      border: none;
+      border: 1px solid var(--border-color);
       caret-color: var(--violet-1);
       color: inherit;
       font-size: 1.6rem;

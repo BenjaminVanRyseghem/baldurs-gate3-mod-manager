@@ -8,3 +8,13 @@
     justify-self: flex-start;
   }
 }
+
+.TextAndButton {
+  align-content: flex-end;
+  display: flex;
+  gap: var(--spacing-4);
+}
+
+.open {
+  height: 30px;
+}

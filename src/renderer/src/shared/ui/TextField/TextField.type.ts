@@ -54,4 +54,6 @@ export type TextFieldProps = {
     | "text"
     | "url";
   value?: ReadonlyArray<string> | number | string | undefined;
+
+  button?: ReactElement;
 };

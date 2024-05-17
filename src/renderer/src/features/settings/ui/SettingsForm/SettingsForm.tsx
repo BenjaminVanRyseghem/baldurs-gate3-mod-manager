@@ -2,8 +2,9 @@ import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 
 import { delay } from "@common/lib";
+import Visibility from "@renderer/shared/assets/icons/visibility.svg";
 import { classNames, trpc } from "@renderer/shared/lib/helpers";
-import { Button, TextField } from "@renderer/shared/ui";
+import { Button, IconButton, TextField } from "@renderer/shared/ui";
 
 import css from "./SettingsForm.module.scss";
 import { SettingsFormProps, SettingsFormValues } from "./SettingsForm.type";
@@ -18,15 +19,16 @@ const SettingsForm = ({ className, game }: SettingsFormProps) => {
     },
   });
 
-  const { register, handleSubmit, formState } = useForm<SettingsFormValues>({
-    defaultValues: {
-      modSettingsFile: data?.MOD_SETTINGS_PATH,
-      modsDirectory: data?.MODS_DIRECTORY,
-      backupDirectory: data?.BACKUP_DIR,
-      bg3mmDirectory: data?.BG3MM_DIR,
-    },
-    mode: "onTouched",
-  });
+  const { register, handleSubmit, formState, getValues } =
+    useForm<SettingsFormValues>({
+      defaultValues: {
+        modSettingsFile: data?.MOD_SETTINGS_PATH,
+        modsDirectory: data?.MODS_DIRECTORY,
+        backupDirectory: data?.BACKUP_DIR,
+        bg3mmDirectory: data?.BG3MM_DIR,
+      },
+      mode: "onTouched",
+    });
 
   const onSubmit = async (values: SettingsFormValues) => {
     await Promise.all([delay(850), mutateAsync({ ...values, gameKey: game })]);
@@ -48,13 +50,37 @@ const SettingsForm = ({ className, game }: SettingsFormProps) => {
         {...register("modsDirectory")}
         label="Path to Mods directory"
       />
-      <TextField
-        {...register("backupDirectory")}
-        label="Path to Backup directory"
-      />
+      <div className={css.TextAndButton}>
+        <TextField
+          {...register("backupDirectory")}
+          label="Path to Backup directory"
+          button={
+            <IconButton
+              className={css.open}
+              onClick={() => {
+                window.electron.openPath(getValues("backupDirectory"));
+              }}
+              title="Copy content to buffer"
+            >
+              <Visibility />
+            </IconButton>
+          }
+        />
+      </div>
       <TextField
         {...register("bg3mmDirectory")}
         label="Path to BG3MM order directory"
+        button={
+          <IconButton
+            className={css.open}
+            onClick={() => {
+              window.electron.openPath(getValues("bg3mmDirectory"));
+            }}
+            title="Copy content to buffer"
+          >
+            <Visibility />
+          </IconButton>
+        }
       />
       <Button
         className={css.submitButton}
