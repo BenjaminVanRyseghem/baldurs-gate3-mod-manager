@@ -166,7 +166,7 @@ const ModsOrder = ({
                           className={css.installedMod}
                           game={game}
                           mod={mod}
-                          position={index + 1}
+                          position={index}
                           onClick={undefined}
                         />
                       </div>

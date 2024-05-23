@@ -50,7 +50,7 @@ const InstalledModsList = ({ className, game }: InstalledModsListProps) => {
                   key={mod.uuid ?? (mod.name || index)}
                   game={game}
                   mod={mod}
-                  position={position ? position + 1 : undefined}
+                  position={position !== -1 ? position : undefined}
                   onClick={() => setSelectedMod(mod)}
                 />
               );

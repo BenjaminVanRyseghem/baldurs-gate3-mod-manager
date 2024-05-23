@@ -34,7 +34,7 @@ const InstalledMod = ({
       data-testid="InstalledMod"
       onClick={onClick}
     >
-      <span>{position ? `${position}.` : "-"}</span>
+      <span>{position !== undefined ? `${position}.` : "-"}</span>
       <span title="Marklar">{mod.name || mod.fileName}</span>
       <span>{mod.version}</span>
       <ToggleActiveModButton
